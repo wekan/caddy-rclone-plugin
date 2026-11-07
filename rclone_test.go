@@ -157,6 +157,14 @@ func TestCaddyfile(t *testing.T) {
 			t.Errorf("adapted config lacks %s: %s", want, out)
 		}
 	}
+	// A local path: :local:/path. A bare /path is Caddy's path matcher, not a remote.
+	out, _, err = adapter.Adapt([]byte("x.example.org {\n\trclone :local:/srv/files\n}\n"), nil)
+	if err != nil || !strings.Contains(string(out), `"remote":":local:/srv/files"`) {
+		t.Fatalf(":local:/path: %v %s", err, out)
+	}
+	if _, _, err := adapter.Adapt([]byte("x.example.org {\n\trclone /srv/files\n}\n"), nil); err == nil || !strings.Contains(err.Error(), ":local:") {
+		t.Fatalf("negative: a bare /path is a matcher, and the error must say to write :local:/path: %v", err)
+	}
 	for name, bad := range map[string]string{
 		"no remote":         "x.example.org {\n\trclone\n}\n",
 		"an unknown option": "x.example.org {\n\trclone r: {\n\t\tdelete_all\n\t}\n}\n",

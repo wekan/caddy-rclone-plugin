@@ -39,7 +39,7 @@ rclone [<matcher>] <remote> {
 
 | | |
 |---|---|
-| `<remote>` | `name:path` of a remote in rclone.conf, an inline connection string such as `:s3,provider=AWS,env_auth=true:bucket`, or a local path |
+| `<remote>` | `name:path` of a remote in rclone.conf, an inline connection string such as `:s3,provider=AWS,env_auth=true:bucket`, or a local path written `:local:/srv/files` - in a Caddyfile a bare `/srv/files` right after the directive is Caddy's path matcher |
 | `config` | rclone.conf; default rclone's own (`RCLONE_CONFIG`, `~/.config/rclone/rclone.conf`). rclone has one configuration per process, so every `rclone` must name the same file |
 | `webdav` | also take WebDAV requests |
 | `read_only` | refuse everything that would change the remote, with or without `webdav` |

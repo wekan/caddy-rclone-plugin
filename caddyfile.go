@@ -24,7 +24,8 @@ func init() {
 func (h *Handler) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	d.Next() // the directive name
 	if !d.NextArg() {
-		return d.Err("rclone needs a remote: name:path, a :backend,option=value:path connection string, or a local path")
+		return d.Err("rclone needs a remote: name:path, a :backend,option=value:path connection string, or a local " +
+			"path as :local:/path (a bare /path right after the directive is Caddy's path matcher)")
 	}
 	h.Remote = d.Val()
 	if d.NextArg() {
